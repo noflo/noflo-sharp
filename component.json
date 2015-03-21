@@ -1,0 +1,21 @@
+{
+  "name": "noflo-sharp",
+  "description": "Fast image resizing components for NoFlo.",
+  "author": "Vilson Vieira <vilson@void.cc>",
+  "repo": "vilson/noflo-sharp",
+  "version": "0.1.0",
+  "keywords": [],
+  "dependencies": {
+    "noflo/noflo": "*"
+  },
+  "remotes": [
+    "https://raw.githubusercontent.com"
+  ],
+  "scripts": [
+    "index.js",
+    "components/Resize-node.coffee"
+  ],
+  "json": [
+    "component.json"
+  ]
+}
