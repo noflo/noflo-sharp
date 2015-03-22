@@ -31,9 +31,8 @@ exports.getComponent = ->
     in: ['path']
     params: ['width', 'height']
     out: ['canvas']
-    async: true
     forwardGroups: true
-  , (payload, groups, out, callback) ->
+  , (payload, groups, out) ->
     width = if c.params.width? then c.params.width else null
     height = if c.params.height? then c.params.height else null
     if width is null and height is null
@@ -60,8 +59,7 @@ exports.getComponent = ->
           canvas.originalWidth = metadata.width
           canvas.originalHeight = metadata.height
           out.send canvas
-          do callback
     catch err
-      callback err
+      out.error err
 
   c
