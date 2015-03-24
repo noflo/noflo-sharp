@@ -9,7 +9,7 @@ exports.getComponent = ->
   c = new noflo.Component
 
   c.icon = 'expand'
-  c.description = 'Resize a given image'
+  c.description = 'Resize a given image to the new dimension'
 
   c.inPorts.add 'path',
     datatype: 'string'
@@ -17,10 +17,11 @@ exports.getComponent = ->
   c.inPorts.add 'width',
     datatype: 'integer'
     description: 'New width'
+    required: false
   c.inPorts.add 'height',
     datatype: 'integer'
     description: 'New height'
-
+    required: false
   c.outPorts.add 'canvas',
     datatype: 'string'
   c.outPorts.add 'error',
@@ -31,24 +32,26 @@ exports.getComponent = ->
     in: ['path']
     params: ['width', 'height']
     out: ['canvas']
+    async: true
     forwardGroups: true
-  , (payload, groups, out) ->
-    width = if c.params.width? then c.params.width else null
-    height = if c.params.height? then c.params.height else null
-    if width is null and height is null
+  , (payload, groups, out, callback) ->
+    width = c.params.width
+    height = c.params.height
+    if not width? and not height?
       width = 256
     path = payload
     try
       inputBuffer = sharp path
       inputBuffer.metadata (err, metadata) ->
         if err
-          throw err
+          return callback err
         inputBuffer
         .resize width, height
         .withMetadata()
+        .withoutEnlargement()
         .toBuffer (err, outputBuffer, info) ->
           if err
-            throw err
+            return callback err
           # Create image with buffer as src
           image = new Canvas.Image
           image.src = outputBuffer
@@ -59,7 +62,8 @@ exports.getComponent = ->
           canvas.originalWidth = metadata.width
           canvas.originalHeight = metadata.height
           out.send canvas
+          do callback
     catch err
-      out.error err
+      return callback err
 
   c
