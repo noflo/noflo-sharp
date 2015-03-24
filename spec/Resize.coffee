@@ -33,6 +33,9 @@ describe 'Resize component', ->
       chai.expect(c.outPorts.canvas).to.be.an 'object'
 
   describe 'when passed an image', ->
+    original =
+      width: 512
+      height: 512
     it 'should resize it to the specified dimension', (done) ->
       expected =
         width: 128
@@ -41,6 +44,8 @@ describe 'Resize component', ->
         chai.expect(data).to.be.an 'object'
         chai.expect(data.width).to.be.equal expected.width
         chai.expect(data.height).to.be.equal expected.height
+        chai.expect(data.originalWidth).to.be.equal original.width
+        chai.expect(data.originalHeight).to.be.equal original.height
         done()
 
       width.send expected.width
@@ -54,6 +59,8 @@ describe 'Resize component', ->
         chai.expect(data).to.be.an 'object'
         chai.expect(data.width).to.be.equal expected.width
         chai.expect(data.height).to.be.equal expected.width
+        chai.expect(data.originalWidth).to.be.equal original.width
+        chai.expect(data.originalHeight).to.be.equal original.height
         done()
 
       width.send expected.width
@@ -66,6 +73,8 @@ describe 'Resize component', ->
         chai.expect(data).to.be.an 'object'
         chai.expect(data.width).to.be.equal expected.height
         chai.expect(data.height).to.be.equal expected.height
+        chai.expect(data.originalWidth).to.be.equal original.width
+        chai.expect(data.originalHeight).to.be.equal original.height
         done()
 
       height.send expected.height
@@ -79,6 +88,25 @@ describe 'Resize component', ->
         chai.expect(data).to.be.an 'object'
         chai.expect(data.width).to.be.equal expected.width
         chai.expect(data.height).to.be.equal expected.height
+        chai.expect(data.originalWidth).to.be.equal original.width
+        chai.expect(data.originalHeight).to.be.equal original.height
         done()
 
+      ins.send __dirname + '/fixtures/lenna.png'
+
+    it 'should not resize up (just down, without enlargement)', (done) ->
+      expected =
+        width: 512
+        height: 512
+      out.on 'data', (data) ->
+        chai.expect(data).to.be.an 'object'
+        chai.expect(data.width).to.be.equal expected.width
+        chai.expect(data.height).to.be.equal expected.height
+        chai.expect(data.originalWidth).to.be.equal original.width
+        chai.expect(data.originalHeight).to.be.equal original.height
+        chai.expect(data.width).to.be.equal data.originalWidth
+        chai.expect(data.height).to.be.equal data.originalHeight
+        done()
+
+      width.send 1024
       ins.send __dirname + '/fixtures/lenna.png'
