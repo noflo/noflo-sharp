@@ -49,6 +49,7 @@ exports.getComponent = ->
         .resize width, height
         .withMetadata()
         .withoutEnlargement()
+        .toFormat 'png'
         .toBuffer (err, outputBuffer, info) ->
           if err
             return callback err

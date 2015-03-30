@@ -110,3 +110,66 @@ describe 'Resize component', ->
 
       width.send 1024
       ins.send __dirname + '/fixtures/lenna.png'
+
+  describe 'when passed a GIF', ->
+    original =
+      width: 500
+    it 'should resize it to the specified dimension', (done) ->
+      expected =
+        width: 256
+      out.on 'data', (data) ->
+        chai.expect(data).to.be.an 'object'
+        chai.expect(data.width).to.be.equal expected.width
+        chai.expect(data.originalWidth).to.be.equal original.width
+        done()
+
+      width.send expected.width
+      ins.send __dirname + '/fixtures/foo.gif'
+
+  describe 'when passed a JPG', ->
+    original =
+      width: 2048
+      height: 1536
+    it 'should resize it to the specified dimension', (done) ->
+      expected =
+        width: 1024
+      out.on 'data', (data) ->
+        chai.expect(data).to.be.an 'object'
+        chai.expect(data.width).to.be.equal expected.width
+        chai.expect(data.originalWidth).to.be.equal original.width
+        done()
+
+      width.send expected.width
+      ins.send __dirname + '/fixtures/foo.jpeg'
+
+  describe 'when passed a WEBP', ->
+    original =
+      width: 550
+      height: 404
+    it 'should resize it to the specified dimension', (done) ->
+      expected =
+        width: 256
+      out.on 'data', (data) ->
+        chai.expect(data).to.be.an 'object'
+        chai.expect(data.width).to.be.equal expected.width
+        chai.expect(data.originalWidth).to.be.equal original.width
+        done()
+
+      width.send expected.width
+      ins.send __dirname + '/fixtures/foo.webp'
+
+  describe 'when passed a TIFF', ->
+    original =
+      width: 1076
+      height: 750
+    it 'should resize it to the specified dimension', (done) ->
+      expected =
+        width: 256
+      out.on 'data', (data) ->
+        chai.expect(data).to.be.an 'object'
+        chai.expect(data.width).to.be.equal expected.width
+        chai.expect(data.originalWidth).to.be.equal original.width
+        done()
+
+      width.send expected.width
+      ins.send __dirname + '/fixtures/foo.tif'
