@@ -6,4 +6,4 @@ before_script:
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq libcairo2-dev libgif-dev libopencv-dev libjpeg8-dev libpango1.0-dev build-essential g++
-  - ./install-libvips.sh
+  - sudo ./install-libvips.sh
