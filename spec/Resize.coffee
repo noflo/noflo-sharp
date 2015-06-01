@@ -147,6 +147,7 @@ describe 'Resize component', ->
       width: 550
       height: 404
     it 'should resize it to the specified dimension', (done) ->
+      @timeout 10000
       expected =
         width: 256
       out.on 'data', (data) ->
