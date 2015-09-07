@@ -50,6 +50,13 @@ getData = (name, def) ->
     console.log 'WARN: getData():', err.message
     return def || {}
 
+getBuffer = (name, callback) ->
+  fs.readFile name, (err, data) ->
+    if err
+      console.log 'ERROR: getBuffer():', err.message
+      callback {}
+    callback data
+
 writeOut = (path, data) ->
   path = 'spec/fixtures/'+path
   unless noflo.isBrowser()
@@ -66,6 +73,7 @@ writePNG = (path, canvas) ->
       console.log 'Saved PNG file in', path
 
 exports.getData = getData
+exports.getBuffer = getBuffer
 exports.writeOut = writeOut
 exports.writePNG = writePNG
 exports.getCanvasWithImage = getCanvasWithImage
