@@ -47,19 +47,36 @@ exports.getComponent = ->
       inputBuffer.metadata (err, metadata) ->
         if err
           return callback err
-        inputBuffer
-        .resize width, height
-        .withMetadata()
-        .withoutEnlargement()
-        .toBuffer (err, outputBuffer, info) ->
-          if err
-            return callback err
-          originalWidth = metadata.width
-          resizedWidth = info.width
-          factor = originalWidth / resizedWidth
-          out.buffer.send outputBuffer
-          out.factor.send factor
-          do callback
+        # Try to preserve the same format, if there's EXIF
+        if metadata.exif?
+          inputBuffer
+          .resize width, height
+          .withMetadata()
+          .withoutEnlargement()
+          .toBuffer (err, outputBuffer, info) ->
+            if err
+              return callback err
+            originalWidth = metadata.width
+            resizedWidth = info.width
+            factor = originalWidth / resizedWidth
+            out.buffer.send outputBuffer
+            out.factor.send factor
+            do callback
+        else
+          inputBuffer
+          .resize width, height
+          .withMetadata()
+          .withoutEnlargement()
+          .toFormat('png')
+          .toBuffer (err, outputBuffer, info) ->
+            if err
+              return callback err
+            originalWidth = metadata.width
+            resizedWidth = info.width
+            factor = originalWidth / resizedWidth
+            out.buffer.send outputBuffer
+            out.factor.send factor
+            do callback
     catch err
       return callback err
 
