@@ -44,7 +44,7 @@ exports.getComponent = ->
           when 1 then 0
           when 3 then 180
           when 6 then 90
-          when 8 then -90
+          when 8 then 270
           else 0
         try
           inputBuffer
@@ -69,8 +69,8 @@ exports.getComponent = ->
         .toBuffer (err, outputBuffer, info) ->
           if err
             return callback err
-          out.buffer.send outputBuffer
           out.angle.send angle
+          out.buffer.send outputBuffer
           do callback
       catch err
         return callback err
