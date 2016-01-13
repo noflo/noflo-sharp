@@ -116,12 +116,19 @@ describe 'ResizeBuffer component', ->
 
   describe 'when passed a narrow image with default values', ->
     it 'should resize to (? x default height)', (done) ->
+      original =
+        width: 736
+        height: 7337
       expected =
         height: c.defaultDimension
+      calculatedFactor = null
+      factor.on 'data', (data) ->
+        calculatedFactor = data
       out.on 'data', (data) ->
         buffer = sharp data
         buffer.metadata (err, meta) ->
           chai.expect(meta.height).to.be.equal expected.height
+          chai.expect(calculatedFactor).to.be.equal original.height / expected.height
           done()
 
       testutils.getBuffer __dirname + '/fixtures/narrow.jpg', (buffer) ->
@@ -129,12 +136,19 @@ describe 'ResizeBuffer component', ->
 
   describe 'when passed a wide image with default values', ->
     it 'should resize to (default width x ?)', (done) ->
+      original =
+        width: 7337
+        height: 736
       expected =
         width: c.defaultDimension
+      calculatedFactor = null
+      factor.on 'data', (data) ->
+        calculatedFactor = data
       out.on 'data', (data) ->
         buffer = sharp data
         buffer.metadata (err, meta) ->
           chai.expect(meta.width).to.be.equal expected.width
+          chai.expect(calculatedFactor).to.be.equal original.width / expected.width
           done()
 
       testutils.getBuffer __dirname + '/fixtures/wide.jpg', (buffer) ->
