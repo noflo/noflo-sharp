@@ -87,8 +87,8 @@ describe 'ResizeBuffer component', ->
 
     it 'should resize it right to default dimension', (done) ->
       expected =
-        width: 256
-        height: 256
+        width: c.defaultDimension
+        height: c.defaultDimension
       out.on 'data', (data) ->
         buffer = sharp data
         buffer.metadata (err, meta) ->
@@ -112,6 +112,32 @@ describe 'ResizeBuffer component', ->
 
       width.send 1024
       testutils.getBuffer __dirname + '/fixtures/lenna.png', (buffer) ->
+        ins.send buffer
+
+  describe 'when passed a narrow image with default values', ->
+    it 'should resize to (? x default height)', (done) ->
+      expected =
+        height: c.defaultDimension
+      out.on 'data', (data) ->
+        buffer = sharp data
+        buffer.metadata (err, meta) ->
+          chai.expect(meta.height).to.be.equal expected.height
+          done()
+
+      testutils.getBuffer __dirname + '/fixtures/narrow.jpg', (buffer) ->
+        ins.send buffer
+
+  describe 'when passed a wide image with default values', ->
+    it 'should resize to (default width x ?)', (done) ->
+      expected =
+        width: c.defaultDimension
+      out.on 'data', (data) ->
+        buffer = sharp data
+        buffer.metadata (err, meta) ->
+          chai.expect(meta.width).to.be.equal expected.width
+          done()
+
+      testutils.getBuffer __dirname + '/fixtures/wide.jpg', (buffer) ->
         ins.send buffer
 
   describe 'when passed a GIF', ->
