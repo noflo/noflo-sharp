@@ -10,7 +10,7 @@ exports.getComponent = ->
 
   c.icon = 'expand'
   c.description = 'Resize a given image buffer to a new dimension'
-  c.defaultDimension = 256
+  c.defaultDimension = 1024
 
   c.inPorts.add 'buffer',
     datatype: 'object'
