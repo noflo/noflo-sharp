@@ -3,7 +3,7 @@
   "description": "Fast image resizing components for NoFlo.",
   "author": "Vilson Vieira <vilson@void.cc>",
   "repo": "vilson/noflo-sharp",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "keywords": [],
   "dependencies": {
     "noflo/noflo": "*"
