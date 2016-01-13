@@ -10,6 +10,7 @@ exports.getComponent = ->
 
   c.icon = 'expand'
   c.description = 'Resize a given image buffer to a new dimension'
+  c.defaultDimension = 256
 
   c.inPorts.add 'buffer',
     datatype: 'object'
@@ -40,13 +41,18 @@ exports.getComponent = ->
   , (payload, groups, out, callback) ->
     width = c.params.width
     height = c.params.height
-    if not width? and not height?
-      width = 256
     try
       inputBuffer = sharp payload
       inputBuffer.metadata (err, metadata) ->
         if err
           return callback err
+        # Default value when nothing is specified
+        if not width? and not height?
+          # Deal with narrow or wide images
+          if metadata.width > metadata.height
+            width = c.defaultDimension
+          else
+            height = c.defaultDimension
         # Try to preserve the same format, if there's EXIF
         if metadata.exif?
           inputBuffer
@@ -56,9 +62,14 @@ exports.getComponent = ->
           .toBuffer (err, outputBuffer, info) ->
             if err
               return callback err
-            originalWidth = metadata.width
-            resizedWidth = info.width
-            factor = originalWidth / resizedWidth
+            if width
+              originalWidth = metadata.width
+              resizedWidth = info.width
+              factor = originalWidth / resizedWidth
+            else
+              originalHeight = metadata.height
+              resizedHeight = info.height
+              factor = originalHeight / resizedHeight
             out.buffer.send outputBuffer
             out.factor.send factor
             do callback
@@ -71,9 +82,14 @@ exports.getComponent = ->
           .toBuffer (err, outputBuffer, info) ->
             if err
               return callback err
-            originalWidth = metadata.width
-            resizedWidth = info.width
-            factor = originalWidth / resizedWidth
+            if width
+              originalWidth = metadata.width
+              resizedWidth = info.width
+              factor = originalWidth / resizedWidth
+            else
+              originalHeight = metadata.height
+              resizedHeight = info.height
+              factor = originalHeight / resizedHeight
             out.buffer.send outputBuffer
             out.factor.send factor
             do callback
