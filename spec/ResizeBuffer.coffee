@@ -88,15 +88,13 @@ describe 'ResizeBuffer component', ->
     it 'should resize it right to default dimension', (done) ->
       expected =
         width: c.defaultDimension
-        height: c.defaultDimension
       out.on 'data', (data) ->
         buffer = sharp data
         buffer.metadata (err, meta) ->
           chai.expect(meta.width).to.be.equal expected.width
-          chai.expect(meta.height).to.be.equal expected.height
           done()
 
-      testutils.getBuffer __dirname + '/fixtures/lenna.png', (buffer) ->
+      testutils.getBuffer __dirname + '/fixtures/foo.jpeg', (buffer) ->
         ins.send buffer
 
     it 'should not resize up (just down, without enlargement)', (done) ->
