@@ -30,6 +30,18 @@ exports.getComponent = ->
     datatype: 'number'
     description: 'Original over resized dimensions factor'
     required: false
+  c.outPorts.add 'original',
+    datatype: 'object'
+    description: 'Original dimension'
+    required: false
+  c.outPorts.add 'resized',
+    datatype: 'object'
+    description: 'Resized dimension'
+    required: false
+  c.outPorts.add 'metadata',
+    datatype: 'object'
+    description: 'Extracted metadata while resizing'
+    required: false
   c.outPorts.add 'error',
     datatype: 'object'
     required: false
@@ -37,7 +49,7 @@ exports.getComponent = ->
   noflo.helpers.WirePattern c,
     in: ['in']
     params: ['width', 'height']
-    out: ['out', 'factor']
+    out: ['out', 'factor', 'original', 'resized', 'metadata']
     async: true
     forwardGroups: true
   , (payload, groups, out, callback) ->
@@ -66,6 +78,13 @@ exports.getComponent = ->
             factor = originalWidth / resizedWidth
             out.out.send outputBuffer
             out.factor.send factor
+            out.original.send
+              width: metadata.width
+              height: metadata.height
+            out.resized.send
+              width: info.width
+              height: info.height
+            out.metadata.send metadata
             do callback
         else
           inputBuffer
@@ -81,6 +100,13 @@ exports.getComponent = ->
             factor = originalWidth / resizedWidth
             out.out.send outputBuffer
             out.factor.send factor
+            out.original.send
+              width: metadata.width
+              height: metadata.height
+            out.resized.send
+              width: info.width
+              height: info.height
+            out.metadata.send metadata
             do callback
     catch err
       return callback err

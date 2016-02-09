@@ -14,6 +14,9 @@ describe 'Resize component', ->
   width = null
   height = null
   factor = null
+  original = null
+  resized = null
+  metadata = null
   error = null
   out = null
   beforeEach ->
@@ -22,12 +25,18 @@ describe 'Resize component', ->
     width = noflo.internalSocket.createSocket()
     height = noflo.internalSocket.createSocket()
     factor = noflo.internalSocket.createSocket()
+    original = noflo.internalSocket.createSocket()
+    resized = noflo.internalSocket.createSocket()
+    metadata = noflo.internalSocket.createSocket()
     error = noflo.internalSocket.createSocket()
     out = noflo.internalSocket.createSocket()
     c.inPorts.in.attach ins
     c.inPorts.width.attach width
     c.inPorts.height.attach height
     c.outPorts.factor.attach factor
+    c.outPorts.original.attach original
+    c.outPorts.resized.attach resized
+    c.outPorts.metadata.attach metadata
     c.outPorts.error.attach error
     c.outPorts.out.attach out
 
@@ -38,6 +47,9 @@ describe 'Resize component', ->
       chai.expect(c.inPorts.height).to.be.an 'object'
     it 'should have output ports', ->
       chai.expect(c.outPorts.factor).to.be.an 'object'
+      chai.expect(c.outPorts.original).to.be.an 'object'
+      chai.expect(c.outPorts.resized).to.be.an 'object'
+      chai.expect(c.outPorts.metadata).to.be.an 'object'
       chai.expect(c.outPorts.out).to.be.an 'object'
     it 'should have error port', ->
       chai.expect(c.outPorts.error).to.be.an 'object'
