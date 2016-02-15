@@ -104,16 +104,14 @@ describe 'Resize component', ->
 
     it 'should resize it right to default dimension', (done) ->
       expected =
-        width: 256
-        height: 256
+        width: c.defaultDimension
       out.on 'data', (data) ->
         buffer = sharp data
         buffer.metadata (err, meta) ->
           chai.expect(meta.width).to.be.equal expected.width
-          chai.expect(meta.height).to.be.equal expected.height
           done()
 
-      testutils.getBuffer __dirname + '/fixtures/lenna.png', (buffer) ->
+      testutils.getBuffer __dirname + '/fixtures/foo.jpeg', (buffer) ->
         ins.send buffer
 
     it 'should not resize up (just down, without enlargement)', (done) ->
@@ -178,16 +176,14 @@ describe 'Resize component', ->
 
     it 'should resize it right to default dimension', (done) ->
       expected =
-        width: 256
-        height: 256
+        width: c.defaultDimension
       out.on 'data', (data) ->
         buffer = sharp data
         buffer.metadata (err, meta) ->
           chai.expect(meta.width).to.be.equal expected.width
-          chai.expect(meta.height).to.be.equal expected.height
           done()
 
-      ins.send __dirname + '/fixtures/lenna.png'
+      ins.send __dirname + '/fixtures/foo.jpeg'
 
     it 'should not resize up (just down, without enlargement)', (done) ->
       expected =
@@ -226,6 +222,46 @@ describe 'Resize component', ->
         chai.expect(data).to.be.eql err
         done()
       testutils.getBuffer __dirname + '/Resize.coffee', (buffer) ->
+        ins.send buffer
+
+  describe 'when passed a narrow image with default values', ->
+    it 'should resize to (? x default height)', (done) ->
+      original =
+        width: 736
+        height: 7337
+      expected =
+        height: c.defaultDimension
+      calculatedFactor = null
+      factor.on 'data', (data) ->
+        calculatedFactor = data
+      out.on 'data', (data) ->
+        buffer = sharp data
+        buffer.metadata (err, meta) ->
+          chai.expect(meta.height).to.be.equal expected.height
+          chai.expect(calculatedFactor).to.be.equal original.height / expected.height
+          done()
+
+      testutils.getBuffer __dirname + '/fixtures/narrow.jpg', (buffer) ->
+        ins.send buffer
+
+  describe 'when passed a wide image with default values', ->
+    it 'should resize to (default width x ?)', (done) ->
+      original =
+        width: 7337
+        height: 736
+      expected =
+        width: c.defaultDimension
+      calculatedFactor = null
+      factor.on 'data', (data) ->
+        calculatedFactor = data
+      out.on 'data', (data) ->
+        buffer = sharp data
+        buffer.metadata (err, meta) ->
+          chai.expect(meta.width).to.be.equal expected.width
+          chai.expect(calculatedFactor).to.be.equal original.width / expected.width
+          done()
+
+      testutils.getBuffer __dirname + '/fixtures/wide.jpg', (buffer) ->
         ins.send buffer
 
   describe 'when passed a GIF buffer', ->
