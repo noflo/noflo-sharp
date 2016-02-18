@@ -13,9 +13,6 @@ describe 'Resize component', ->
   ins = null
   width = null
   height = null
-  factor = null
-  original = null
-  resized = null
   metadata = null
   error = null
   out = null
@@ -24,18 +21,12 @@ describe 'Resize component', ->
     ins = noflo.internalSocket.createSocket()
     width = noflo.internalSocket.createSocket()
     height = noflo.internalSocket.createSocket()
-    factor = noflo.internalSocket.createSocket()
-    original = noflo.internalSocket.createSocket()
-    resized = noflo.internalSocket.createSocket()
     metadata = noflo.internalSocket.createSocket()
     error = noflo.internalSocket.createSocket()
     out = noflo.internalSocket.createSocket()
     c.inPorts.path.attach ins
     c.inPorts.width.attach width
     c.inPorts.height.attach height
-    c.outPorts.factor.attach factor
-    c.outPorts.original.attach original
-    c.outPorts.resized.attach resized
     c.outPorts.metadata.attach metadata
     c.outPorts.error.attach error
     c.outPorts.out.attach out
@@ -46,9 +37,6 @@ describe 'Resize component', ->
       chai.expect(c.inPorts.width).to.be.an 'object'
       chai.expect(c.inPorts.height).to.be.an 'object'
     it 'should have output ports', ->
-      chai.expect(c.outPorts.factor).to.be.an 'object'
-      chai.expect(c.outPorts.original).to.be.an 'object'
-      chai.expect(c.outPorts.resized).to.be.an 'object'
       chai.expect(c.outPorts.metadata).to.be.an 'object'
       chai.expect(c.outPorts.out).to.be.an 'object'
     it 'should have error port', ->
@@ -73,6 +61,29 @@ describe 'Resize component', ->
       height.send expected.height
       testutils.getBuffer __dirname + '/fixtures/foo.jpeg', (buffer) ->
         ins.send buffer
+
+    it 'should extract the right metadata', (done) ->
+      original =
+        width: 2048
+        height: 1536
+      resized =
+        width: 128
+        height: 256
+      metadata.on 'data', (data) ->
+        chai.expect(data.format).to.be.equal 'jpeg'
+        chai.expect(data.exif).to.exists
+        chai.expect(data.width).to.be.equal original.width
+        chai.expect(data.height).to.be.equal original.height
+        chai.expect(data.resizedWidth).to.be.equal resized.width
+        chai.expect(data.resizedHeight).to.be.equal resized.height
+        chai.expect(data.factor).to.be.equal original.width / resized.width
+        done()
+
+      width.send resized.width
+      height.send resized.height
+      testutils.getBuffer __dirname + '/fixtures/foo.jpeg', (buffer) ->
+        ins.send buffer
+
 
     it 'should resize it right when given just width', (done) ->
       expected =
@@ -232,8 +243,8 @@ describe 'Resize component', ->
       expected =
         height: c.defaultDimension
       calculatedFactor = null
-      factor.on 'data', (data) ->
-        calculatedFactor = data
+      metadata.on 'data', (data) ->
+        calculatedFactor = data.factor
       out.on 'data', (data) ->
         buffer = sharp data
         buffer.metadata (err, meta) ->
@@ -252,8 +263,8 @@ describe 'Resize component', ->
       expected =
         width: c.defaultDimension
       calculatedFactor = null
-      factor.on 'data', (data) ->
-        calculatedFactor = data
+      metadata.on 'data', (data) ->
+        calculatedFactor = data.factor
       out.on 'data', (data) ->
         buffer = sharp data
         buffer.metadata (err, meta) ->
