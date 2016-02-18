@@ -70,60 +70,33 @@ exports.getComponent = ->
             width = c.defaultDimension
           else
             height = c.defaultDimension
-        # Try to preserve the same format, if there's EXIF
-        if metadata.exif?
-          inputBuffer
-          .resize width, height
-          .withMetadata()
-          .withoutEnlargement()
-          .toBuffer (err, outputBuffer, info) ->
-            if err
-              return callback err
-            if width
-              originalWidth = metadata.width
-              resizedWidth = info.width
-              factor = originalWidth / resizedWidth
-            else
-              originalHeight = metadata.height
-              resizedHeight = info.height
-              factor = originalHeight / resizedHeight
-            out.out.send outputBuffer
-            out.factor.send factor
-            out.original.send
-              width: metadata.width
-              height: metadata.height
-            out.resized.send
-              width: info.width
-              height: info.height
-            out.metadata.send metadata
-            do callback
-        else
-          inputBuffer
-          .resize width, height
-          .withMetadata()
-          .withoutEnlargement()
-          .toFormat 'png'
-          .toBuffer (err, outputBuffer, info) ->
-            if err
-              return callback err
-            if width
-              originalWidth = metadata.width
-              resizedWidth = info.width
-              factor = originalWidth / resizedWidth
-            else
-              originalHeight = metadata.height
-              resizedHeight = info.height
-              factor = originalHeight / resizedHeight
-            out.out.send outputBuffer
-            out.factor.send factor
-            out.original.send
-              width: metadata.width
-              height: metadata.height
-            out.resized.send
-              width: info.width
-              height: info.height
-            out.metadata.send metadata
-            do callback
+        format = if metadata.exif? then 'jpeg' else 'png'
+        inputBuffer
+        .resize width, height
+        .withMetadata()
+        .withoutEnlargement()
+        .toFormat format
+        .toBuffer (err, outputBuffer, info) ->
+          if err
+            return callback err
+          if width
+            originalWidth = metadata.width
+            resizedWidth = info.width
+            factor = originalWidth / resizedWidth
+          else
+            originalHeight = metadata.height
+            resizedHeight = info.height
+            factor = originalHeight / resizedHeight
+          out.out.send outputBuffer
+          out.factor.send factor
+          out.original.send
+            width: metadata.width
+            height: metadata.height
+          out.resized.send
+            width: info.width
+            height: info.height
+          out.metadata.send metadata
+          do callback
     catch err
       return callback err
 
