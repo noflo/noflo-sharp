@@ -12,7 +12,7 @@ exports.getComponent = ->
   c.description = 'Resize a given image file to the new dimension'
   c.defaultDimension = 1024
 
-  c.inPorts.add 'in',
+  c.inPorts.add 'path',
     datatype: 'all'
     description: 'Path to image file or image buffer to be resized'
   c.inPorts.add 'width',
@@ -48,7 +48,7 @@ exports.getComponent = ->
     required: false
 
   noflo.helpers.WirePattern c,
-    in: ['in']
+    in: ['path']
     params: ['width', 'height']
     out: ['out', 'factor', 'original', 'resized', 'metadata']
     async: true

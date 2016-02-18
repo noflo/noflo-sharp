@@ -30,7 +30,7 @@ describe 'Resize component', ->
     metadata = noflo.internalSocket.createSocket()
     error = noflo.internalSocket.createSocket()
     out = noflo.internalSocket.createSocket()
-    c.inPorts.in.attach ins
+    c.inPorts.path.attach ins
     c.inPorts.width.attach width
     c.inPorts.height.attach height
     c.outPorts.factor.attach factor
@@ -42,7 +42,7 @@ describe 'Resize component', ->
 
   describe 'when instantiated', ->
     it 'should have input ports', ->
-      chai.expect(c.inPorts.in).to.be.an 'object'
+      chai.expect(c.inPorts.path).to.be.an 'object'
       chai.expect(c.inPorts.width).to.be.an 'object'
       chai.expect(c.inPorts.height).to.be.an 'object'
     it 'should have output ports', ->
