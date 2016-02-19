@@ -12,8 +12,7 @@
     "https://raw.githubusercontent.com"
   ],
   "scripts": [
-    "index.js",
-    "components/Resize-node.coffee"
+    "index.js"
   ],
   "json": [
     "component.json"
