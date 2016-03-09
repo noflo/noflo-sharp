@@ -66,6 +66,7 @@ exports.getComponent = ->
         .withMetadata()
         .toFormat 'png'
         .toBuffer (err, outputBuffer, info) ->
+          console.log 'rotate', err, info
           if err
             return callback err
           out.angle.send angle
