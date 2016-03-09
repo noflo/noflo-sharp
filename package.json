@@ -17,9 +17,8 @@
   },
   "dependencies": {
     "noflo": "~0.5.11",
-    "sharp": "0.11.1",
-    "temporary": "0.0.8",
-    "noflo-canvas": "~0.1.16"
+    "sharp": "^0.13.1",
+    "temporary": "0.0.8"
   },
   "devDependencies": {
     "chai": "~2.0.0",
@@ -31,7 +30,8 @@
     "grunt-contrib-uglify": "~0.8.0",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-noflo-manifest": "~0.1.11",
-    "mocha": "~2.1.0"
+    "mocha": "~2.1.0",
+    "noflo-canvas": "^0.2.0"
   },
   "keywords": [
     "noflo",
