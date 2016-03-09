@@ -44,3 +44,20 @@ describe 'Rotate component', ->
       angle.send 90
       testutils.getBuffer __dirname + '/fixtures/foo.jpeg', (buffer) ->
         ins.send buffer
+
+  describe 'when passed an small image and an angle', ->
+    @timeout 10000
+    it 'should rotate to the angle', (done) ->
+      expected =
+        width: 1536
+        height: 2048
+      out.on 'data', (data) ->
+        console.log 'data', data
+        buffer = sharp data
+        buffer.metadata (err, meta) ->
+          #chai.expect(meta.width).to.be.equal expected.width
+          #chai.expect(meta.height).to.be.equal expected.height
+          done()
+      angle.send 0
+      testutils.getBuffer __dirname + '/fixtures/1x1.gif', (buffer) ->
+        ins.send buffer
