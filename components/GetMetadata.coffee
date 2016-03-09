@@ -1,6 +1,5 @@
 noflo = require 'noflo'
 sharp = require 'sharp'
-Canvas = require('noflo-canvas').canvas
 
 # @runtime noflo-nodejs
 # @name GetMetadata
