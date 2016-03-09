@@ -47,10 +47,10 @@ describe 'Rotate component', ->
 
   describe 'when passed an small image and an angle', ->
     @timeout 10000
-    it 'should rotate to the angle', (done) ->
-      expected =
-        width: 1536
-        height: 2048
+    it 'should error', (done) ->
+      error.on 'data', (data) ->
+        console.log 'error', data
+        done()
       out.on 'data', (data) ->
         console.log 'data', data
         buffer = sharp data
