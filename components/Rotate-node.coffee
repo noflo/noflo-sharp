@@ -51,6 +51,7 @@ exports.getComponent = ->
           .withMetadata()
           .toFormat 'png'
           .toBuffer (err, outputBuffer, info) ->
+            console.log 'rotate by exif', err, info
             if err
               return callback err
             out.buffer.send outputBuffer
