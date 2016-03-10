@@ -1,3 +1,4 @@
+Canvas = require 'canvas'
 noflo = require 'noflo'
 sharp = require 'sharp'
 

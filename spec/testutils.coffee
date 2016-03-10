@@ -1,3 +1,5 @@
+console.log 'testutils'
+
 noflo = require 'noflo'
 unless noflo.isBrowser()
   fs = require 'fs'
