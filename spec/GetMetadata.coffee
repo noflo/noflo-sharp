@@ -70,7 +70,6 @@ describe 'GetMetadata component', ->
       outs.orientation.on 'data', (data) ->
         chai.expect(data).to.be.equal expected.orientation
       outs.exif.on 'data', (data) ->
-        chai.expect(data).to.be.an 'object'
         chai.expect(data).to.be.instanceof Buffer
       outs.icc.on 'data', (data) ->
         chai.expect(data).to.be.equal expected.icc
