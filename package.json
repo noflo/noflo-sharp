@@ -16,7 +16,7 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "noflo": "~0.6.0",
+    "noflo": "~0.7.0",
     "sharp": "^0.13.1",
     "temporary": "0.0.8"
   },
