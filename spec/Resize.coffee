@@ -408,3 +408,17 @@ describe 'Resize component', ->
 
       width.send expected.width
       ins.send __dirname + '/fixtures/foo.tif'
+
+  describe 'when passed a large GIF file', ->
+    it 'should resize it to the specified dimension', (done) ->
+      expected =
+        width: 1024
+      out.on 'data', (data) ->
+        console.log 'data', data
+        buffer = sharp data
+        buffer.metadata (err, meta) ->
+          chai.expect(meta.width).to.be.equal expected.width
+          done()
+
+      width.send expected.width
+      ins.send __dirname + '/fixtures/big.gif'
