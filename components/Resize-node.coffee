@@ -46,9 +46,13 @@ exports.getComponent = ->
       return callback Error 'Input is not a valid buffer nor image path'
     width = c.params.width
     height = c.params.height
+    console.log payload
     try
       inputBuffer = sharp payload
+      console.log inputBuffer
+      console.log inputBuffer.metadata
       inputBuffer.metadata (err, metadata) ->
+        console.log 'metadata', metadata
         if err
           return callback err
         # Default value when nothing is specified
@@ -82,6 +86,7 @@ exports.getComponent = ->
           out.metadata.send metadata
           do callback
     catch err
+      console.log 'err', err
       return callback err
 
   c
