@@ -1,5 +1,5 @@
-noflo = require 'noflo'
 sharp = require 'sharp'
+noflo = require 'noflo'
 path = require 'path'
 
 # @runtime noflo-nodejs
@@ -47,6 +47,8 @@ exports.getComponent = ->
     width = c.params.width
     height = c.params.height
     console.log payload
+    sharp.cache 0
+    console.log 'counters', sharp.counters()
     try
       inputBuffer = sharp payload
       console.log inputBuffer

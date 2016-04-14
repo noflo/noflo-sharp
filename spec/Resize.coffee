@@ -2,8 +2,8 @@ noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
   Resize = require '../components/Resize-node.coffee'
-  testutils = require './testutils'
   sharp = require 'sharp'
+  testutils = require './testutils'
 else
   Resize = require 'noflo-sharp/components/Resize.js'
   testutils = require 'noflo-image/spec/testutils.js'
