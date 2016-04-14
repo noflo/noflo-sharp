@@ -411,6 +411,7 @@ describe 'Resize component', ->
 
   describe 'when passed a large GIF file', ->
     it 'should resize it to the specified dimension', (done) ->
+      @timeout 20000
       expected =
         width: 1024
       out.on 'data', (data) ->
