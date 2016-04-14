@@ -48,6 +48,7 @@ exports.getComponent = ->
     height = c.params.height
     console.log payload
     sharp.cache 0
+    sharp.concurrency 1
     console.log 'counters', sharp.counters()
     try
       inputBuffer = sharp payload
