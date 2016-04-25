@@ -69,6 +69,7 @@ exports.getComponent = ->
         .withoutEnlargement()
         .toFormat format
         .toBuffer (err, outputBuffer, info) ->
+          console.log util.inspect process.memoryUsage()
           if err
             return callback err
           if width
