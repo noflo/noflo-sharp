@@ -1,6 +1,7 @@
 sharp = require 'sharp'
 noflo = require 'noflo'
 path = require 'path'
+util = require 'util'
 
 # @runtime noflo-nodejs
 # @name Resize
@@ -46,16 +47,12 @@ exports.getComponent = ->
       return callback Error 'Input is not a valid buffer nor image path'
     width = c.params.width
     height = c.params.height
-    console.log payload
-    sharp.cache 0
-    sharp.concurrency 1
-    console.log 'counters', sharp.counters()
+    console.log util.inspect process.memoryUsage()
+    sharp.cache false
     try
       inputBuffer = sharp payload
-      console.log inputBuffer
-      console.log inputBuffer.metadata
       inputBuffer.metadata (err, metadata) ->
-        console.log 'metadata', metadata
+        console.log util.inspect process.memoryUsage()
         if err
           return callback err
         # Default value when nothing is specified
