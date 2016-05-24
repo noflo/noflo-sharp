@@ -34,11 +34,16 @@ exports.getComponent = ->
   , (payload, groups, out, callback) ->
     {rect} = c.params
     buffer = payload
+    bbox =
+      left: rect.x
+      top: rect.y
+      width: rect.width
+      height: rect.height
     try
       inputBuffer = sharp buffer
       inputBuffer.metadata (err, metadata) ->
         inputBuffer
-        .extract(rect.x, rect.y, rect.width, rect.height)
+        .extract(bbox)
         .withMetadata()
         .toFormat 'png'
         .toBuffer (err, outputBuffer, info) ->
