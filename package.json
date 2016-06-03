@@ -1,7 +1,7 @@
 {
   "name": "noflo-sharp",
   "description": "Fast image resizing components for NoFlo.",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": {
     "name": "Vilson Vieira",
     "email": "vilson@void.cc",
