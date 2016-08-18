@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "noflo": "0.x >= 0.5",
-    "sharp": "^0.15.0",
+    "sharp": "^0.16.0",
     "temporary": "0.0.8"
   },
   "devDependencies": {
