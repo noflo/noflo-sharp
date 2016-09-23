@@ -1,6 +1,6 @@
 # noflo-sharp [![Build Status](https://secure.travis-ci.org/noflo/noflo-sharp.png?branch=master)](http://travis-ci.org/noflo/noflo-sharp)
 
-Fast image resizing components for [NoFlo](http://noflojs.org), powered by [vips](www.vips.ecs.soton.ac.uk).
+Fast image resizing components for [NoFlo](http://noflojs.org), powered by [vips](http://www.vips.ecs.soton.ac.uk).
 
 # Dependencies
 
