@@ -21,7 +21,7 @@
     "temporary": "0.0.8"
   },
   "devDependencies": {
-    "chai": "~3.5.0",
+    "chai": "~4.1.2",
     "coffeelint": "^1.11.1",
     "grunt": "~1.0.1",
     "grunt-coffeelint": "~0.0.16",
