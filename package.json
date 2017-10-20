@@ -31,7 +31,7 @@
     "grunt-mocha-test": "^0.13.2",
     "grunt-noflo-manifest": "~0.1.12",
     "mocha": "~4.0.1",
-    "noflo-canvas": "^0.2.0"
+    "noflo-canvas": "^0.3.0"
   },
   "keywords": [
     "noflo",
