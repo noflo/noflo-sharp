@@ -13,37 +13,23 @@
   },
   "license": "MIT",
   "scripts": {
-    "test": "grunt test"
+    "pretest": "coffeelint -f .coffeelint.json -r components",
+    "test": "mocha --require coffeescript/register -R spec -t 2000 spec/*.coffee"
   },
   "dependencies": {
     "noflo": "0.x >= 0.5",
-    "sharp": "^0.17.1",
+    "sharp": "^0.18.4",
     "temporary": "0.0.8"
   },
   "devDependencies": {
-    "chai": "~3.5.0",
-    "coffeelint": "^1.11.1",
-    "grunt": "~1.0.1",
-    "grunt-coffeelint": "~0.0.16",
-    "grunt-contrib-coffee": "~1.0.0",
-    "grunt-contrib-uglify": "~2.2.0",
-    "grunt-contrib-watch": "~1.0.0",
-    "grunt-mocha-test": "^0.13.2",
-    "grunt-noflo-manifest": "~0.1.12",
-    "mocha": "~4.0.1",
-    "noflo-canvas": "^0.3.0"
+    "chai": "^4.1.2",
+    "coffeelint": "^2.0.7",
+    "coffeescript": "^2.0.2",
+    "mocha": "^4.0.1",
+    "noflo-canvas": ">=0.3.0"
   },
   "keywords": [
     "noflo",
     "ecosystem:noflo"
-  ],
-  "noflo": {
-    "components": {
-      "Extract": "components/Extract-node.coffee",
-      "GetMetadata": "components/GetMetadata.coffee",
-      "Resize": "components/Resize-node.coffee",
-      "ResizeBuffer": "components/ResizeBuffer-node.coffee",
-      "Rotate": "components/Rotate-node.coffee"
-    }
-  }
+  ]
 }
