@@ -1,7 +1,6 @@
 language: node_js
 node_js:
-- 4
-- 5
+- 6
 sudo: false
 addons:
   apt:
@@ -12,8 +11,6 @@ addons:
     - libgif-dev
 env:
   CXX=g++-4.8
-before_script:
-  - npm install -g grunt-cli node-gyp
 deploy:
   provider: npm
   email: vilson@void.cc
