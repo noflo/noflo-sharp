@@ -71,7 +71,7 @@ describe 'Resize component', ->
         height: 256
       metadata.on 'data', (data) ->
         chai.expect(data.format).to.be.equal 'jpeg'
-        chai.expect(data.exif).to.exists
+        chai.expect(data.exif).to.exist
         chai.expect(data.width).to.be.equal original.width
         chai.expect(data.height).to.be.equal original.height
         chai.expect(data.resizedWidth).to.be.equal resized.width
@@ -213,24 +213,24 @@ describe 'Resize component', ->
   describe 'when passed a missing image file', ->
     it 'should error', (done) ->
       error.on 'data', (data) ->
-        err = Error 'Input file is of an unsupported image format'
-        chai.expect(data).to.be.eql err
+        chai.expect(data).to.be.an 'error'
+        chai.expect(data.message).to.contain 'unsupported image format'
         done()
       ins.send  __dirname + '/fixtures/do-not-exist.jpeg'
 
   describe 'when passed an invalid image file', ->
     it 'should error', (done) ->
       error.on 'data', (data) ->
-        err = Error 'Input file is of an unsupported image format'
-        chai.expect(data).to.be.eql err
+        chai.expect(data).to.be.an 'error'
+        chai.expect(data.message).to.contain 'unsupported image format'
         done()
       ins.send  __dirname + '/Resize.coffee'
 
   describe 'when passed an invalid buffer', ->
     it 'should error', (done) ->
       error.on 'data', (data) ->
-        err = Error 'Input file is of an unsupported image format'
-        chai.expect(data).to.be.eql err
+        chai.expect(data).to.be.an 'error'
+        chai.expect(data.message).to.contain 'unsupported image format'
         done()
       testutils.getBuffer __dirname + '/Resize.coffee', (buffer) ->
         ins.send buffer
